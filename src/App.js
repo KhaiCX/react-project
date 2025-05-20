@@ -1,28 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
-const member = ['HueNTT', 'HongPT4', 'KhaiCX', 'HauND11'];
-function App(props) {
+import NavbarComponent from './Components/Header/NavbarComponent';
+import TodoComponent from './Components/Body/TodoComponent';
+function App() {
   return (
-    <table>
-      <tr>
-        <th>{props.member}</th>
-      </tr>
-      <tr>
-        <th>
-          {props.member}
-        </th>
-      </tr>
-      <tr>
-        <th>
-          {props.member}
-        </th>
-      </tr>
-      <tr>
-        <th>
-          {props.member}
-        </th>
-      </tr>
-    </table>
+    <div>
+      <NavbarComponent />
+      <TodoComponent />
+    </div>
   );
 }
 
