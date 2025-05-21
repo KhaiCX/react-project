@@ -86,7 +86,10 @@ function TodoComponent() {
     }, []);
 
     const deleteTodo = (id) => {
-
+        fetch('https://jsonplaceholder.typicode.com/posts/' + id, {
+            method: 'DELETE',
+        });
+        setSubmitted(true);
     };
 
     return (
