@@ -1,8 +1,7 @@
-import axios from 'axios'
-const API_URL = 'https://dummyjson.com/users'
+import axios from './axios'
 const getAllUsers = async () => {
     try {
-        const promise = await axios.get(API_URL);
+        const promise = await axios.get('/users');
         return promise.data;
     } catch (error) {
         console.error('Error fetching user: ', error);
