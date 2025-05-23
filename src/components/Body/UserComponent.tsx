@@ -1,63 +1,66 @@
-import React, { useState } from "react"
+import { useEffect, useState } from "react"
 import { User } from "../../schemas/user.schema"
+import { Table } from 'react-bootstrap'
+import { UserService } from '../../services/UserService'
 
 function UserComponent() {
-    const [user, setUser] = useState<User>({
-        id: 0,
-        fullName: '',
-        email: '',
-        username: '',
-        phone: '',
-        imageUrl: '',
-        role: 'MEMBER',
-        status: false,
-        created_at: '',
-        updated_at: ''
-    });
+    const [users, setUsers] = useState<User[]>([])
 
-    const handleUser = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // const { name, value } = event.target;
-        // setUser(prevUser => ({
-        //     ...prevUser,
-        //     [name]: value
-        // }))
-        console.log(event.target)
-    }
-    //console.log(user)
+    useEffect(() => {
+        const userList = async () => {
+            try {
+                const result = await UserService.getAllUsers();
+                if (result && result.users) {
+                    setUsers(result.users);
+                }
+            } catch (error) {
+                console.error('Failed to fetch users: ', error)
+            }
+        }
+        userList()
+    }, [])
     return (
-        <form>
-            <div className="row form">
-                <div className="col-sm-4">
-                    <input value={user.fullName} onChange={handleUser} type="text" className="form-control" placeholder="Enter full name" name="fullName" />
-                </div>
-                <div className="col-sm-4">
-                    <input type="text" className="form-control" placeholder="Enter email" name="email" />
-                </div>
-                <div className="col-sm-4">
-                    <input type="text" className="form-control" placeholder="Enter user name" name="userName" />
-                </div>
-            </div>
-            <div className="row form">
-                <div className="col-sm-4">
-                    <input type="file" className="form-control" name="imageUrl" />
-                </div>
-                <div className="col-sm-4">
-                    <select className="form-select">
-                        <option>ADMIN</option>
-                        <option>USER</option>
-                    </select>
-
-                </div>
-                <div className="col-sm-4">
-                    <input checked={user.status} onChange={handleUser} type="checkbox" name="status" />
-                </div>
-            </div>
-            <div className="row form">
-                <div className="col-sm-4">
-                    <button type="submit" className="btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </form >
+        <div className="table-responsive">
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Maiden Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                        <th>Birth Date</th>
+                        <th>Image</th>
+                        <th>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users && users.length > 0 && users.map(user => (
+                        <tr key={`user-${user.id}`}>
+                            <td>{user.id}</td>
+                            <td>{user.firstName}</td>
+                            <td>{user.lastName}</td>
+                            <td>{user.maidenName}</td>
+                            <td>{user.age}</td>
+                            <td>{user.gender}</td>
+                            <td>{user.email}</td>
+                            <td>{user.username}</td>
+                            <td>{user.password}</td>
+                            <td>{user.birthDate}</td>
+                            <td>{user.image}</td>
+                            <td>
+                                `${user.address?.address ?? ''} ${user.address?.city ?? ''} ${user.address?.state ?? ''} {user.address?.postalCode ?? ''}`
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </Table >
+        </div>
     )
 }
 export default UserComponent

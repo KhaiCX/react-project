@@ -9,6 +9,11 @@ function App() {
   return (
     <div className='app-container'>
       <HeaderComponent />
+      <Container>
+        <Row>
+          <UserComponent />
+        </Row>
+      </Container>
     </div>
   );
 }

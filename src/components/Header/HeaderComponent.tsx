@@ -1,8 +1,8 @@
 import { Navbar, Container, Nav, NavDropdown, Form, Button } from 'react-bootstrap'
 function HeaderComponent() {
     return (
-        <Navbar expand="lg" fixed='top' bg="primary">
-            <Container fluid>
+        <Navbar expand="lg" bg="primary">
+            <Container>
                 <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
