@@ -14,8 +14,12 @@ const postCreateUser = (objectUser: any) => {
 }
 
 const updateUser = (objectUser: any) => {
-    return axios.put('/users/' + objectUser.id)
+    return axios.put('/users/' + objectUser.id, objectUser)
+}
+
+const deleteUser = (objectUser: any) => {
+    return axios.delete('/users/' + objectUser.id, objectUser)
 }
 export const UserService = {
-    getAllUsers, postCreateUser, updateUser
+    getAllUsers, postCreateUser, updateUser, deleteUser
 }

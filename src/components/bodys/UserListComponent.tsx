@@ -4,21 +4,32 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { UserService } from '../../services/UserService'
 import ModalAddNew from './ModalAddNew';
 import ModalEditUser from "./ModalEditUser";
+import ModalDeleteUser from "./ModalDeleteUser";
 function UserListComponent() {
     const [users, setUsers] = useState<User[]>([])
 
     const [show, setShow] = useState(false)
     const [showModalEdit, setShowModalEdit] = useState(false)
+    const [showModalDelete, setShowModalDelete] = useState(false)
     const [dataUserEdit, setDataUserEdit] = useState({
         firstName: '',
         lastName: '',
         age: 0
     })
+    const [dataUserDelete, setDataUserDelete] = useState({
+        firstName: '',
+        lastName: '',
+        age: 0
+    })
+
+    const handleDeleteUserSuccess = (user: any) => {
+        let newUsers = users.filter(item => item.id !== user.id)
+        setUsers([...newUsers])
+    }
     const handleEditUserFromModal = (user: any) => {
         let index = users.findIndex(item => item.id === user.id)
         users[index] = user
         setUsers([...users])
-        console.log(index)
     }
 
     const handleEditUser = (user: any) => {
@@ -35,6 +46,15 @@ function UserListComponent() {
 
     const handleListUser = (user: any) => {
         setUsers([user, ...users])
+    }
+
+    const handleDeleteUser = (user: any) => {
+        setShowModalDelete(true)
+        setDataUserDelete(user)
+    }
+
+    const handleCloseModalDelete = () => {
+        setShowModalDelete(false)
     }
 
     useEffect(() => {
@@ -83,7 +103,7 @@ function UserListComponent() {
                                     <td>
                                         <Button variant="success">Detail</Button>
                                         <Button variant="primary" onClick={() => handleEditUser(user)}>Update</Button>
-                                        <Button variant="danger">Delete</Button>
+                                        <Button variant="danger" onClick={() => handleDeleteUser(user)} >Delete</Button>
                                     </td>
                                 </tr>
                             ))}
@@ -101,6 +121,12 @@ function UserListComponent() {
                 handleCloseEditModal={handleCloseEditModal}
                 dataUserEdit={dataUserEdit}
                 handleEditUserFromModal={handleEditUserFromModal} />
+
+            <ModalDeleteUser
+                showModalDelete={showModalDelete}
+                handleCloseModalDelete={handleCloseModalDelete}
+                dataUserDelete={dataUserDelete}
+                handleDeleteUserSuccess={handleDeleteUserSuccess} />
         </>
     )
 }
