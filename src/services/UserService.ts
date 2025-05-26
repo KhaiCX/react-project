@@ -8,6 +8,14 @@ const getAllUsers = async () => {
         throw error;
     }
 }
+
+const postCreateUser = (objectUser: any) => {
+    return axios.post('/users/add', objectUser)
+}
+
+const updateUser = (objectUser: any) => {
+    return axios.put('/users/' + objectUser.id)
+}
 export const UserService = {
-    getAllUsers
+    getAllUsers, postCreateUser, updateUser
 }
